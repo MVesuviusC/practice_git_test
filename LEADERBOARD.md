@@ -2,11 +2,11 @@
 
 Auto-updated from pull requests and reviews.
 
-Last updated: not run yet
+Last updated: 2026-07-15T17:27:09.044Z
 
 | Rank | User | Total | PRs Opened | PRs Merged | Reviews | Review Points |
 |---:|---|---:|---:|---:|---:|---:|
-| 1 | _No scores yet_ | 0 | 0 | 0 | 0 | 0 |
+| 1 | @MVesuviusC | 40 | 1 | 1 | 0 | 0 |
 
 ## Scoring Rules
 
