@@ -1,16 +1,28 @@
 [
   {
     "user": "MVesuviusC",
-    "total": 50,
+    "total": 100,
     "commits": 0,
-    "opened_prs": 2,
-    "merged_prs": 1,
+    "opened_prs": 3,
+    "merged_prs": 3,
     "reviews": 0,
     "review_points": 0,
     "reasons": [
       {
         "reason": "Opened PR",
         "points": 10
+      },
+      {
+        "reason": "Merged PR",
+        "points": 20
+      },
+      {
+        "reason": "Opened PR",
+        "points": 10
+      },
+      {
+        "reason": "Merged PR",
+        "points": 20
       },
       {
         "reason": "Opened PR",
