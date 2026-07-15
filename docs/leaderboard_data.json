@@ -1,14 +1,50 @@
 [
   {
     "user": "MVesuviusC",
-    "total": 130,
-    "commits": 0,
-    "opened_prs": 4,
-    "merged_prs": 4,
+    "total": 230,
+    "commits": 10,
+    "opened_prs": 5,
+    "merged_prs": 5,
     "reviews": 0,
     "review_points": 0,
     "reasons": [
       {
+        "reason": "Commit points",
+        "points": 5
+      },
+      {
+        "reason": "Opened PR",
+        "points": 10
+      },
+      {
+        "reason": "Scoped PR bonus",
+        "points": 5
+      },
+      {
+        "reason": "Merged PR",
+        "points": 20
+      },
+      {
+        "reason": "Commit points",
+        "points": 10
+      },
+      {
+        "reason": "Opened PR",
+        "points": 10
+      },
+      {
+        "reason": "Scoped PR bonus",
+        "points": 5
+      },
+      {
+        "reason": "Merged PR",
+        "points": 20
+      },
+      {
+        "reason": "Commit points",
+        "points": 5
+      },
+      {
         "reason": "Opened PR",
         "points": 10
       },
@@ -17,24 +53,32 @@
         "points": 20
       },
       {
+        "reason": "Commit points",
+        "points": 15
+      },
+      {
         "reason": "Opened PR",
         "points": 10
+      },
+      {
+        "reason": "Scoped PR bonus",
+        "points": 5
       },
       {
         "reason": "Merged PR",
         "points": 20
       },
       {
-        "reason": "Opened PR",
-        "points": 10
-      },
-      {
-        "reason": "Merged PR",
-        "points": 20
+        "reason": "Commit points",
+        "points": 15
       },
       {
         "reason": "Opened PR",
         "points": 10
+      },
+      {
+        "reason": "Scoped PR bonus",
+        "points": 5
       },
       {
         "reason": "Merged PR",
