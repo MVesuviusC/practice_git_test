@@ -29,6 +29,8 @@ The repo only writes leaderboard files from `main`, so student PR branches do no
 
 Commit counts are pulled from each pull request's full details, so the commit value shown in the table and the commit points included in the total should match.
 
+Each leaderboard cell now shows `count (points)` for that scoring bucket, so students can see both the activity count and the points it produced.
+
 ## How To Adjust Scoring
 
 Open .github/workflows/workshop_leaderboard.yml and edit the cfg object in the Compute leaderboard step.

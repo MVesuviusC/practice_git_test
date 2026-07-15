@@ -49,19 +49,32 @@ jobs:
             const scores = {};
             const mergedByUser = {};
 
-            function addPoints(login, points, reason) {
-              if (!login || login.endsWith("[bot]")) return;
+            function ensureScore(login) {
               if (!scores[login]) {
                 scores[login] = {
                   total: 0,
                   commits: 0,
+                  commit_points: 0,
                   opened_prs: 0,
+                  opened_pr_points: 0,
                   merged_prs: 0,
+                  merged_pr_points: 0,
+                  scoped_bonus_count: 0,
+                  scoped_bonus_points: 0,
                   reviews: 0,
                   review_points: 0,
+                  first_merge_bonus_count: 0,
+                  first_merge_bonus_points: 0,
                   reasons: []
                 };
               }
+
+              return scores[login];
+            }
+
+            function addPoints(login, points, reason) {
+              if (!login || login.endsWith("[bot]")) return;
+              ensureScore(login);
               scores[login].total += points;
               scores[login].reasons.push({ reason, points });
             }
@@ -77,34 +90,30 @@ jobs:
               const author = prData.user && prData.user.login;
               if (!author || author.endsWith("[bot]")) continue;
 
-              if (!scores[author]) {
-                scores[author] = {
-                  total: 0,
-                  commits: 0,
-                  opened_prs: 0,
-                  merged_prs: 0,
-                  reviews: 0,
-                  review_points: 0,
-                  reasons: []
-                };
-              }
+              ensureScore(author);
 
               const commitCount = prData.commits || 0;
               scores[author].commits += commitCount;
               if (commitCount > 0) {
-                addPoints(author, commitCount * cfg.per_commit, "Commit points");
+                const commitPoints = commitCount * cfg.per_commit;
+                scores[author].commit_points += commitPoints;
+                addPoints(author, commitPoints, "Commit points");
               }
 
               scores[author].opened_prs += 1;
+              scores[author].opened_pr_points += cfg.pr_opened;
               addPoints(author, cfg.pr_opened, "Opened PR");
 
               const churn = (prData.additions || 0) + (prData.deletions || 0);
               if (churn >= 10 && churn <= 400) {
+                scores[author].scoped_bonus_count += 1;
+                scores[author].scoped_bonus_points += cfg.small_pr_bonus;
                 addPoints(author, cfg.small_pr_bonus, "Scoped PR bonus");
               }
 
               if (prData.merged_at) {
                 scores[author].merged_prs += 1;
+                scores[author].merged_pr_points += cfg.pr_merged;
                 addPoints(author, cfg.pr_merged, "Merged PR");
                 mergedByUser[author] = (mergedByUser[author] || 0) + 1;
               }
@@ -112,6 +121,9 @@ jobs:
 
             for (const login of Object.keys(mergedByUser)) {
               if (mergedByUser[login] >= 1) {
+                ensureScore(login);
+                scores[login].first_merge_bonus_count += 1;
+                scores[login].first_merge_bonus_points += cfg.first_merge_bonus;
                 addPoints(login, cfg.first_merge_bonus, "First merged PR bonus");
               }
             }
@@ -139,17 +151,7 @@ jobs:
                 if (!reviewer || reviewer.endsWith("[bot]")) continue;
                 if (reviewer === prAuthor) continue;
 
-                if (!scores[reviewer]) {
-                  scores[reviewer] = {
-                    total: 0,
-                    commits: 0,
-                    opened_prs: 0,
-                    merged_prs: 0,
-                    reviews: 0,
-                    review_points: 0,
-                    reasons: []
-                  };
-                }
+                ensureScore(reviewer);
 
                 if (scores[reviewer].review_points < cfg.max_review_points_per_person) {
                   scores[reviewer].reviews += 1;
@@ -172,15 +174,19 @@ jobs:
             lines.push("");
             lines.push(`Last updated: ${now}`);
             lines.push("");
-            lines.push("| Rank | User | Total | Commits | PRs Opened | PRs Merged | Reviews | Review Points |");
-            lines.push("|---:|---|---:|---:|---:|---:|---:|---:|");
+            lines.push("| Rank | User | Total | Commits | PRs Opened | PRs Merged | Scoped Bonus | Reviews | First Merge Bonus |");
+            lines.push("|---:|---|---:|---:|---:|---:|---:|---:|---:|");
+
+            function formatCountPoints(count, points) {
+              return `${count} (${points})`;
+            }
 
             table.forEach((row, idx) => {
-              lines.push(`| ${idx + 1} | @${row.user} | ${row.total} | ${row.commits} | ${row.opened_prs} | ${row.merged_prs} | ${row.reviews} | ${row.review_points} |`);
+              lines.push(`| ${idx + 1} | @${row.user} | ${row.total} | ${formatCountPoints(row.commits, row.commit_points)} | ${formatCountPoints(row.opened_prs, row.opened_pr_points)} | ${formatCountPoints(row.merged_prs, row.merged_pr_points)} | ${formatCountPoints(row.scoped_bonus_count, row.scoped_bonus_points)} | ${formatCountPoints(row.reviews, row.review_points)} | ${formatCountPoints(row.first_merge_bonus_count, row.first_merge_bonus_points)} |`);
             });
 
             if (table.length === 0) {
-              lines.push("| 1 | _No scores yet_ | 0 | 0 | 0 | 0 | 0 | 0 |");
+              lines.push("| 1 | _No scores yet_ | 0 | 0 (0) | 0 (0) | 0 (0) | 0 (0) | 0 (0) | 0 (0) |");
             }
 
             lines.push("");
@@ -193,6 +199,8 @@ jobs:
             lines.push(`- Submitted review: ${cfg.review_submitted}`);
             lines.push(`- First merged PR bonus: ${cfg.first_merge_bonus}`);
             lines.push(`- Max review points per person: ${cfg.max_review_points_per_person}`);
+            lines.push("");
+            lines.push("Each table cell shows `count (points)` for that scoring bucket.");
 
             fs.writeFileSync("LEADERBOARD.md", lines.join("\n") + "\n");
             fs.writeFileSync("docs/leaderboard_data.json", JSON.stringify(table, null, 2) + "\n");
