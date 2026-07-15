@@ -6,7 +6,7 @@ This repo includes an automated leaderboard powered by GitHub Actions.
 
 The workflow in .github/workflows/workshop_leaderboard.yml recalculates points from repository activity and updates:
 
-- LEADERBOARD.md
+- README.md (Live Leaderboard section)
 - docs/leaderboard_data.json
 
 It runs when:

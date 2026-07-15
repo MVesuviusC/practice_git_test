@@ -168,7 +168,7 @@ jobs:
 
             const now = new Date().toISOString();
             const lines = [];
-            lines.push("# Workshop Leaderboard");
+            lines.push("### Workshop Leaderboard");
             lines.push("");
             lines.push("Auto-updated from pull requests and reviews.");
             lines.push("");
@@ -202,7 +202,25 @@ jobs:
             lines.push("");
             lines.push("Each table cell shows `count (points)` for that scoring bucket.");
 
-            fs.writeFileSync("LEADERBOARD.md", lines.join("\n") + "\n");
+            const startMarker = "<!-- LEADERBOARD:START -->";
+            const endMarker = "<!-- LEADERBOARD:END -->";
+            const leaderboardBlock = `${startMarker}\n${lines.join("\n")}\n${endMarker}`;
+
+            const readmePath = "README.md";
+            let readme = fs.readFileSync(readmePath, "utf8");
+
+            const startIdx = readme.indexOf(startMarker);
+            const endIdx = readme.indexOf(endMarker);
+
+            if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
+              const before = readme.slice(0, startIdx);
+              const after = readme.slice(endIdx + endMarker.length);
+              readme = `${before}${leaderboardBlock}${after}`;
+            } else {
+              readme = `${readme}\n\n## Live Leaderboard\n\n${leaderboardBlock}\n`;
+            }
+
+            fs.writeFileSync(readmePath, readme);
             fs.writeFileSync("docs/leaderboard_data.json", JSON.stringify(table, null, 2) + "\n");
 
       - name: Commit leaderboard updates
@@ -213,7 +231,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -C "${BRANCH_NAME}"
-          git add LEADERBOARD.md docs/leaderboard_data.json
+          git add README.md docs/leaderboard_data.json
           git diff --cached --quiet && exit 0
           git commit -m "Update workshop leaderboard"
           git push origin "HEAD:${BRANCH_NAME}"
