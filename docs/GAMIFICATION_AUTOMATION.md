@@ -18,6 +18,7 @@ It runs when:
 
 ## Current Scoring Rules
 
+- Per commit: 5 points
 - Opened PR: 10 points
 - Merged PR: 20 points
 - Scoped PR bonus (10 to 400 lines of code churn): 5 points

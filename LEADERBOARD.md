@@ -10,6 +10,7 @@ Last updated: 2026-07-15T17:27:09.044Z
 
 ## Scoring Rules
 
+- Per commit: 5
 - Opened PR: 10
 - Merged PR: 20
 - Scoped PR bonus (10 to 400 lines churn): 5

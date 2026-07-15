@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
 
@@ -34,6 +34,7 @@ jobs:
             const cfg = {
               pr_opened: 10,
               pr_merged: 20,
+              per_commit: 5,
               small_pr_bonus: 5,
               review_submitted: 8,
               first_merge_bonus: 10,
@@ -55,6 +56,7 @@ jobs:
               if (!scores[login]) {
                 scores[login] = {
                   total: 0,
+                  commits: 0,
                   opened_prs: 0,
                   merged_prs: 0,
                   reviews: 0,
@@ -73,12 +75,19 @@ jobs:
               if (!scores[author]) {
                 scores[author] = {
                   total: 0,
+                  commits: 0,
                   opened_prs: 0,
                   merged_prs: 0,
                   reviews: 0,
                   review_points: 0,
                   reasons: []
                 };
+              }
+
+              const commitCount = pr.commits || 0;
+              scores[author].commits += commitCount;
+              if (commitCount > 0) {
+                addPoints(author, commitCount * cfg.per_commit, "Commit points");
               }
 
               scores[author].opened_prs += 1;
@@ -121,6 +130,7 @@ jobs:
                 if (!scores[reviewer]) {
                   scores[reviewer] = {
                     total: 0,
+                    commits: 0,
                     opened_prs: 0,
                     merged_prs: 0,
                     reviews: 0,
@@ -150,20 +160,21 @@ jobs:
             lines.push("");
             lines.push(`Last updated: ${now}`);
             lines.push("");
-            lines.push("| Rank | User | Total | PRs Opened | PRs Merged | Reviews | Review Points |");
-            lines.push("|---:|---|---:|---:|---:|---:|---:|");
+            lines.push("| Rank | User | Total | Commits | PRs Opened | PRs Merged | Reviews | Review Points |");
+            lines.push("|---:|---|---:|---:|---:|---:|---:|---:|");
 
             table.forEach((row, idx) => {
-              lines.push(`| ${idx + 1} | @${row.user} | ${row.total} | ${row.opened_prs} | ${row.merged_prs} | ${row.reviews} | ${row.review_points} |`);
+              lines.push(`| ${idx + 1} | @${row.user} | ${row.total} | ${row.commits} | ${row.opened_prs} | ${row.merged_prs} | ${row.reviews} | ${row.review_points} |`);
             });
 
             if (table.length === 0) {
-              lines.push("| 1 | _No scores yet_ | 0 | 0 | 0 | 0 | 0 |");
+              lines.push("| 1 | _No scores yet_ | 0 | 0 | 0 | 0 | 0 | 0 |");
             }
 
             lines.push("");
             lines.push("## Scoring Rules");
             lines.push("");
+            lines.push(`- Per commit: ${cfg.per_commit}`);
             lines.push(`- Opened PR: ${cfg.pr_opened}`);
             lines.push(`- Merged PR: ${cfg.pr_merged}`);
             lines.push(`- Scoped PR bonus (10 to 400 lines churn): ${cfg.small_pr_bonus}`);

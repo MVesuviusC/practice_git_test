@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r}
- # Intent: clean and standardize master stock price data.
+# Intent: clean and standardize master stock price data.
       # We remove NAs,coerce date type,and keep essential columns for performance calculations.
   prices_clean <-all_prices_raw %>%
     filter(!is.na(close), !is.na(symbol)) %>%
