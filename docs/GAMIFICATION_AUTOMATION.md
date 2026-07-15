@@ -27,6 +27,8 @@ The repo only writes leaderboard files from `main`, so student PR branches do no
 - First merged PR bonus: 10 points
 - Review-point cap per person: 80 points
 
+Commit counts are pulled from each pull request's full details, so the commit value shown in the table and the commit points included in the total should match.
+
 ## How To Adjust Scoring
 
 Open .github/workflows/workshop_leaderboard.yml and edit the cfg object in the Compute leaderboard step.

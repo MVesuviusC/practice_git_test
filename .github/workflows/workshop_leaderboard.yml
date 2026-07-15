@@ -67,7 +67,14 @@ jobs:
             }
 
             for (const pr of prs) {
-              const author = pr.user && pr.user.login;
+              const detail = await github.rest.pulls.get({
+                owner,
+                repo,
+                pull_number: pr.number
+              });
+
+              const prData = detail.data;
+              const author = prData.user && prData.user.login;
               if (!author || author.endsWith("[bot]")) continue;
 
               if (!scores[author]) {
@@ -82,7 +89,7 @@ jobs:
                 };
               }
 
-              const commitCount = pr.commits || 0;
+              const commitCount = prData.commits || 0;
               scores[author].commits += commitCount;
               if (commitCount > 0) {
                 addPoints(author, commitCount * cfg.per_commit, "Commit points");
@@ -91,12 +98,12 @@ jobs:
               scores[author].opened_prs += 1;
               addPoints(author, cfg.pr_opened, "Opened PR");
 
-              const churn = (pr.additions || 0) + (pr.deletions || 0);
+              const churn = (prData.additions || 0) + (prData.deletions || 0);
               if (churn >= 10 && churn <= 400) {
                 addPoints(author, cfg.small_pr_bonus, "Scoped PR bonus");
               }
 
-              if (pr.merged_at) {
+              if (prData.merged_at) {
                 scores[author].merged_prs += 1;
                 addPoints(author, cfg.pr_merged, "Merged PR");
                 mergedByUser[author] = (mergedByUser[author] || 0) + 1;
@@ -110,8 +117,15 @@ jobs:
             }
 
             for (const pr of prs) {
+              const detail = await github.rest.pulls.get({
+                owner,
+                repo,
+                pull_number: pr.number
+              });
+
+              const prData = detail.data;
               const prNumber = pr.number;
-              const prAuthor = pr.user && pr.user.login;
+              const prAuthor = prData.user && prData.user.login;
 
               const reviews = await github.paginate(github.rest.pulls.listReviews, {
                 owner,
