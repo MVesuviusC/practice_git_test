@@ -4,21 +4,23 @@ output: html_document
 ---
 
 ```{r}
- # Intent: show dividend growth over time for top 5 dividend names.
-      # Includes a typo in theme/legend settings for debugging.
-  top5_div_symbols <-div_rank %>%
-    arrange(div_rank) %>%
-slice(1:5) %>%
- pull(symbol)
+# Intent: show dividend growth over time for top 5 dividend names.
+# Includes a typo in theme/legend settings for debugging.
+top5_div_symbols <- div_rank %>%
+  arrange(div_rank) %>%
+  slice(1:5) %>%
+  pull(symbol)
 
-  div_trend<- divs_by_year %>%
-    filter(symbol %in% top5_div_symbols)
+div_trend <- divs_by_year %>%
+  filter(symbol %in% top5_div_symbols)
 
- ggplot(div_trend, aes(x = year, y = total_dividends, color = symbol, group = symbol)) +
-   geom_line(size = 1.1) +
+ggplot(div_trend, aes(x = year, y = total_dividends, color = symbol, group = symbol)) +
+  geom_line(size = 1.1) +
   geom_point() +
-    labs(title= "Dividend Growth Trend: Top 5",
-x ="Year", y ="Total Dividends",
- color = "Tickr") +
-   theme_minial()   # typo on purpose: should be theme_minimal
+  labs(
+    title = "Dividend Growth Trend: Top 5",
+    x = "Year", y = "Total Dividends",
+    color = "Tickr"
+  ) +
+  theme_minial() # typo on purpose: should be theme_minimal
 ```
