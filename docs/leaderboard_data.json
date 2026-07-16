@@ -216,6 +216,82 @@
     ]
   },
   {
+    "user": "maheshworpaudel5001",
+    "total": 70,
+    "commits": 5,
+    "commit_points": 25,
+    "opened_prs": 1,
+    "opened_pr_points": 10,
+    "merged_prs": 1,
+    "merged_pr_points": 20,
+    "scoped_bonus_count": 1,
+    "scoped_bonus_points": 5,
+    "reviews": 0,
+    "review_points": 0,
+    "first_merge_bonus_count": 1,
+    "first_merge_bonus_points": 10,
+    "reasons": [
+      {
+        "reason": "Commit points",
+        "points": 25
+      },
+      {
+        "reason": "Opened PR",
+        "points": 10
+      },
+      {
+        "reason": "Scoped PR bonus",
+        "points": 5
+      },
+      {
+        "reason": "Merged PR",
+        "points": 20
+      },
+      {
+        "reason": "First merged PR bonus",
+        "points": 10
+      }
+    ]
+  },
+  {
+    "user": "efranz7",
+    "total": 65,
+    "commits": 4,
+    "commit_points": 20,
+    "opened_prs": 1,
+    "opened_pr_points": 10,
+    "merged_prs": 1,
+    "merged_pr_points": 20,
+    "scoped_bonus_count": 1,
+    "scoped_bonus_points": 5,
+    "reviews": 0,
+    "review_points": 0,
+    "first_merge_bonus_count": 1,
+    "first_merge_bonus_points": 10,
+    "reasons": [
+      {
+        "reason": "Commit points",
+        "points": 20
+      },
+      {
+        "reason": "Opened PR",
+        "points": 10
+      },
+      {
+        "reason": "Scoped PR bonus",
+        "points": 5
+      },
+      {
+        "reason": "Merged PR",
+        "points": 20
+      },
+      {
+        "reason": "First merged PR bonus",
+        "points": 10
+      }
+    ]
+  },
+  {
     "user": "kkatieshort",
     "total": 63,
     "commits": 2,
@@ -254,36 +330,6 @@
       {
         "reason": "Submitted review",
         "points": 8
-      }
-    ]
-  },
-  {
-    "user": "efranz7",
-    "total": 35,
-    "commits": 4,
-    "commit_points": 20,
-    "opened_prs": 1,
-    "opened_pr_points": 10,
-    "merged_prs": 0,
-    "merged_pr_points": 0,
-    "scoped_bonus_count": 1,
-    "scoped_bonus_points": 5,
-    "reviews": 0,
-    "review_points": 0,
-    "first_merge_bonus_count": 0,
-    "first_merge_bonus_points": 0,
-    "reasons": [
-      {
-        "reason": "Commit points",
-        "points": 20
-      },
-      {
-        "reason": "Opened PR",
-        "points": 10
-      },
-      {
-        "reason": "Scoped PR bonus",
-        "points": 5
       }
     ]
   }
