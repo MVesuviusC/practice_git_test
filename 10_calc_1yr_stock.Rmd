@@ -4,21 +4,25 @@ output: html_document
 ---
 
 ```{r}
- # Intent: compute 1-year price change metrics for each ticker.
-      # We grab earliest and latest values in the 1-year lookback window.
-  oneYr_anchor <-Sys.Date() - 365
+library(tidyverse)
+```
+
+```{r}
+# Intent: compute 1-year price change metrics for each ticker.
+# We grab earliest and latest values in the 1-year lookback window.
+one_yr_anchor <- Sys.Date() - 365
 
 stock_1yr <- prices_clean_sorted %>%
- filter(date >= oneYr_anchor)  %>%
-   group_by(symbol) %>%
-  summarize(
-    start_price= first(close),
-end_price = last(close),
- dollar_change_1y = end_price - start_price,
-   pct_change_1y = end_price/start_price,   # bug: should likely subtract 1 then *100
-  .groups = "drop"
+    filter(date >=   one_yr_anchor)  %>%
+      group_by(symbol) %>%
+    summarize(
+      start_price = first(close),
+      end_price = last(close),
+      dollar_change_1y = end_price - start_price,
+      pct_change_1y = end_price/start_price,   # bug: should likely subtract 1 then *100
+      .groups = "drop"
     )
 
- # Intent: preview for validation.
-   arrange(stock_1yr, desc(pct_change_1y)) %>% head(10)
+# Intent: preview for validation.
+arrange(stock_1yr, desc(pct_change_1y)) %>% head(10)
 ```

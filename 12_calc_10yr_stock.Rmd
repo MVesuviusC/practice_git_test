@@ -4,21 +4,21 @@ output: html_document
 ---
 
 ```{r}
- # Intent: compute 10-year stock performance.
-      # Buggy design: hardcoded anchor date rather than dynamic calculation.
-  ten_year_anchor <-as.Date("2016-07-01")
+# Intent: compute 10-year stock performance.
+# Buggy design: hardcoded anchor date rather than dynamic calculation.
+ten_year_anchor <- as.Date("2016-07-01")
 
 stock_10yr <- prices_clean_sorted |>
- filter(date >= ten_year_anchor) |>
-   group_by(symbol) |>
-  summarise(
-    start_price_10y= first(close),
-end_price_10y = last(close),
- dollar_change_10y = end_price_10y - start_price_10y,
-   pct_change_10y = ((end_price_10y / start_price_10y) - 1) * 100,
-  .groups = "drop"
-    )
+    filter(date >= ten_year_anchor) |>
+    group_by(symbol) |>
+    summarise(
+        start_price_10y= first(close),
+        end_price_10y = last(close),
+        dollar_change_10y = end_price_10y - start_price_10y,
+        pct_change_10y = ((end_price_10y / start_price_10y) - 1) * 100,
+        .groups = "drop"
+      )
 
- # Intent: sort to see best performers.
-   stock_10yr %>% arrange(desc(pct_change_10y)) %>% print(n = 30)
+# Intent: sort to see best performers.
+stock_10yr %>% arrange(desc(pct_change_10y)) %>% print(n = 30)
 ```

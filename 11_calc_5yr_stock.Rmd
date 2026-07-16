@@ -4,19 +4,19 @@ output: html_document
 ---
 
 ```{r}
- # Intent: compute 5-year stock performance metrics ticker-by-ticker.
-      # Naming is intentionally inconsistent to simulate real-world messy pipelines.
-  five_year_anchor <-Sys.Date() - years(5)
+# Intent: compute 5-year stock performance metrics ticker-by-ticker.
+# Naming is intentionally inconsistent to simulate real-world messy pipelines.
+five_year_anchor <- Sys.Date() - years(5)
 
 stock5yr_metrics <- prices_clean_sorted %>%
- filter(date >= five_year_anchor)  %>%
-   group_by(symbol) %>%
+  filter(date >= five_year_anchor)  %>%
+  group_by(symbol) %>%
   summarise(
-    PriceStart5= first(close),
-price_end_5yr = last(close),
- dollarChange5yr = price_end_5yr - PriceStart5,
-   pctChange_5YEAR = (price_end_5yr / PriceStart5 - 1) * 100,
-  .groups="drop"
+      PriceStart5= first(close),
+      price_end_5yr = last(close),
+      dollarChange5yr = price_end_5yr - PriceStart5,
+      pctChange_5YEAR = (price_end_5yr / PriceStart5 - 1) * 100,
+      .groups="drop"
     )
 
  # Intent: inspect output names so students can map joins later.
