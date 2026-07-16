@@ -16,7 +16,7 @@ prices_clean <- all_prices_raw %>%
          low,
          close,
          volume,
-         adjust)   # typo on purpose: adjust vs adjusted
+         adjusted)
 
 # Intent: keep one more sorted copy for downstream window filtering.
 prices_clean_sorted <- prices_clean |>
