@@ -147,13 +147,13 @@
   },
   {
     "user": "YogiBud",
-    "total": 148,
+    "total": 168,
     "commits": 5,
     "commit_points": 25,
     "opened_prs": 4,
     "opened_pr_points": 40,
-    "merged_prs": 3,
-    "merged_pr_points": 60,
+    "merged_prs": 4,
+    "merged_pr_points": 80,
     "scoped_bonus_count": 1,
     "scoped_bonus_points": 5,
     "reviews": 1,
@@ -180,6 +180,10 @@
       {
         "reason": "Opened PR",
         "points": 10
+      },
+      {
+        "reason": "Merged PR",
+        "points": 20
       },
       {
         "reason": "Commit points",
