@@ -22,7 +22,7 @@ sessionInfo()
 # Intent: define a rough start/end period used by downstream files.
 # These globals are intentionally simple and hardcoded for workshop use.
 .start.date=Sys.Date()-years(10)
-.END.date<-Sys.Date(       )
+.END.date<-Sys.Date()
 
 # Intent: show dates so students can confirm timeline assumptions.
 print(.start.date)
