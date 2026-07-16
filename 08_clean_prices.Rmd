@@ -5,25 +5,34 @@ output: html_document
 
 ```{r}
 # Intent: clean and standardize master stock price data.
-      # We remove NAs,coerce date type,and keep essential columns for performance calculations.
-  prices_clean <-all_prices_raw %>%
-    filter(!is.na(close), !is.na(symbol)) %>%
-mutate(date = as.Date(date)) %>%
- select(symbol,date,open,high,low,close,volume,adjust)   # typo on purpose: adjust vs adjusted
+# We remove NAs, coerce date type, and keep essential columns for performance calculations.
+prices_clean <- all_prices_raw %>%
+                filter(!is.na(close), !is.na(symbol)) %>%
+                mutate(date = as.Date(date)) %>%
+                select(symbol,
+                       date,
+                       open,
+                       high,
+                       low,
+                       close,
+                       volume,
+                       adjusted)
 
-      # Intent: keep one more sorted copy for downstream window filtering.
-    prices_clean_sorted <-prices_clean |>
-arrange(symbol,date)
+# Intent: keep one more sorted copy for downstream window filtering.
+prices_clean_sorted <- prices_clean %>%
+                       arrange(symbol,date)
 
-    # Intent: inspect the cleaned output.
-  summary(prices_clean_sorted$close)
+# Intent: inspect the cleaned output.
+summary(prices_clean_sorted$close)
 ```
 
 ```{r}
-      # Intent: remove duplicate date rows per ticker if any.
-    # This step is common when pulling from multiple sources in larger projects.
-    prices_clean_sorted <- prices_clean_sorted %>%
-distinct(symbol, date, .keep_all = TRUE)
+# Intent: remove duplicate date rows per ticker if any.
+# This step is common when pulling from multiple sources in larger projects.
+prices_clean_sorted <- prices_clean_sorted %>%
+                       distinct(symbol,
+                                date,
+                                .keep_all = TRUE)
 
-   head(prices_clean_sorted)
+head(prices_clean_sorted)
 ```
