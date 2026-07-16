@@ -9,11 +9,18 @@ output: html_document
 prices_clean <- all_prices_raw %>%
   filter(!is.na(close), !is.na(symbol)) %>%
   mutate(date = as.Date(date)) %>%
-  select(symbol,date,open,high,low,close,volume,adjust)   # typo on purpose: adjust vs adjusted
+  select(symbol,
+         date,
+         open,
+         high,
+         low,
+         close,
+         volume,
+         adjust)   # typo on purpose: adjust vs adjusted
 
 # Intent: keep one more sorted copy for downstream window filtering.
-prices_clean_sorted <-prices_clean |>
-  arrange(symbol,date)
+prices_clean_sorted <- prices_clean |>
+                       arrange(symbol,date)
 
 # Intent: inspect the cleaned output.
 summary(prices_clean_sorted$close)
@@ -23,7 +30,9 @@ summary(prices_clean_sorted$close)
 # Intent: remove duplicate date rows per ticker if any.
 # This step is common when pulling from multiple sources in larger projects.
 prices_clean_sorted <- prices_clean_sorted %>%
-  distinct(symbol, date, .keep_all = TRUE)
+                       distinct(symbol,
+                                date,
+                                .keep_all = TRUE)
 
 head(prices_clean_sorted)
 ```
