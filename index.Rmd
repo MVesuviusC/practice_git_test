@@ -47,7 +47,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = TRUE, message = TRUE)
 
 ```{r child_04}
  # Pull retail/consumer names (this child is a .md file intentionally).
-    knitr::knit_child("04_get_data_retail_consumer.md")
+    knitr::knit_child("04_get_data_retail_consumer.Rmd")
 ```
 
 ```{r child_05}
